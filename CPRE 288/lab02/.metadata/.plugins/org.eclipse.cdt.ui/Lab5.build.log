@@ -1,0 +1,44 @@
+
+**** Build of configuration Debug for project Lab5 ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+'Building file: ../button.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv6/tools/compiler/ti-cgt-arm_15.12.1.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --include_path="C:/ti/TivaWare_C_Series-2.1.2.111" --include_path="C:/ti/ccsv6/tools/compiler/ti-cgt-arm_15.12.1.LTS/include" -g --gcc --define=ccs="ccs" --define=PART_TM4C123GH6PM --diag_wrap=off --diag_warning=225 --display_error_number --abi=eabi --preproc_with_compile --preproc_dependency="button.d"  "../button.c"
+"../button.c", line 92: warning #179-D: variable "i" was declared but never referenced
+'Finished building: ../button.c'
+' '
+'Building file: ../lcd.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv6/tools/compiler/ti-cgt-arm_15.12.1.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --include_path="C:/ti/TivaWare_C_Series-2.1.2.111" --include_path="C:/ti/ccsv6/tools/compiler/ti-cgt-arm_15.12.1.LTS/include" -g --gcc --define=ccs="ccs" --define=PART_TM4C123GH6PM --diag_wrap=off --diag_warning=225 --display_error_number --abi=eabi --preproc_with_compile --preproc_dependency="lcd.d"  "../lcd.c"
+'Finished building: ../lcd.c'
+' '
+'Building file: ../main.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv6/tools/compiler/ti-cgt-arm_15.12.1.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --include_path="C:/ti/TivaWare_C_Series-2.1.2.111" --include_path="C:/ti/ccsv6/tools/compiler/ti-cgt-arm_15.12.1.LTS/include" -g --gcc --define=ccs="ccs" --define=PART_TM4C123GH6PM --diag_wrap=off --diag_warning=225 --display_error_number --abi=eabi --preproc_with_compile --preproc_dependency="main.d"  "../main.c"
+"../main.c", line 53: warning #225-D: function "sendTheMessage" declared implicitly
+"../main.c", line 60: warning #161-D: declaration is incompatible with previous "sendTheMessage" (declared at line 53)
+"../main.c", line 69: warning #225-D: function "sendAString" declared implicitly
+"../main.c", line 78: warning #225-D: function "sendAString" declared implicitly
+"../main.c", line 86: warning #225-D: function "sendAString" declared implicitly
+"../main.c", line 93: warning #225-D: function "sendAString" declared implicitly
+"../main.c", line 101: warning #225-D: function "sendAString" declared implicitly
+"../main.c", line 108: warning #225-D: function "sendAString" declared implicitly
+"../main.c", line 64: warning #179-D: variable "i" was declared but never referenced
+"../main.c", line 126: warning #225-D: function "sendAString" declared implicitly
+"../main.c", line 134: warning #161-D: declaration is incompatible with previous "sendAString" (declared at line 69)
+'Finished building: ../main.c'
+' '
+'Building file: ../timer.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv6/tools/compiler/ti-cgt-arm_15.12.1.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --include_path="C:/ti/TivaWare_C_Series-2.1.2.111" --include_path="C:/ti/ccsv6/tools/compiler/ti-cgt-arm_15.12.1.LTS/include" -g --gcc --define=ccs="ccs" --define=PART_TM4C123GH6PM --diag_wrap=off --diag_warning=225 --display_error_number --abi=eabi --preproc_with_compile --preproc_dependency="timer.d"  "../timer.c"
+'Finished building: ../timer.c'
+' '
+'Building target: Lab5.out'
+'Invoking: ARM Linker'
+"C:/ti/ccsv6/tools/compiler/ti-cgt-arm_15.12.1.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me -g --gcc --define=ccs="ccs" --define=PART_TM4C123GH6PM --diag_wrap=off --diag_warning=225 --display_error_number --abi=eabi -z -m"Lab5.map" --stack_size=2048 --heap_size=1024 -i"C:/ti/ccsv6/tools/compiler/ti-cgt-arm_15.12.1.LTS/lib" -i"C:/ti/ccsv6/tools/compiler/ti-cgt-arm_15.12.1.LTS/include" --reread_libs --display_error_number --warn_sections --diag_wrap=off --xml_link_info="Lab5_linkInfo.xml" --rom_model -o "Lab5.out" "./button.obj" "./lcd.obj" "./main.obj" "./timer.obj" "./tm4c123gh6pm_startup_ccs.obj" "../tm4c123gh6pm.cmd"  -llibc.a -l"C:/ti/TivaWare_C_Series-2.1.2.111/driverlib/ccs/Debug/driverlib.lib" 
+<Linking>
+'Finished building target: Lab5.out'
+' '
+
+**** Build Finished ****

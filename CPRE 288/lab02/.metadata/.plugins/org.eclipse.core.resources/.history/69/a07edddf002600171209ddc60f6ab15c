@@ -1,0 +1,163 @@
+/*
+ * @file WiFi.c
+ * @brief This is the c file that houses the functions and initalization for the wifi.
+ * @date Sep 25, 2016
+ * @author ericm
+ */
+
+#include <string.h>
+#include <inc/tm4c123gh6pm.h>
+#include "WiFi.h"
+#include "timer.h"
+
+#define COMMAND_PIN		0x04
+
+#define COMMAND_START	0
+#define COMMAND_STOP	1
+
+#define RETVAL_SUCCESS	0
+
+uint8_t _sendCommand(uint8_t command, uint8_t* param, uint8_t len);
+
+/**
+ *    This method initializes the wifi
+ *    @param psk the pointer that is the password for the wifi
+ *    @author Mike, Guan, Larisa, Isaac
+ *    @date 4/20/2017
+ */
+int WiFi_start(char *psk) {
+	//Initialize UART
+	uart_init();
+
+	//Initialize command pin for WiFi connection
+	SYSCTL_RCGCGPIO_R |= 0b10; //Turn on GPIO for WiFi command mode
+	GPIO_PORTB_DEN_R |= COMMAND_PIN; //Enable pin2
+	GPIO_PORTB_DIR_R |= COMMAND_PIN;
+	GPIO_PORTB_DATA_R &= ~COMMAND_PIN; //Clear command pin
+
+	//Wait for pin to settle
+	timer_waitMillis(1);
+
+	uint8_t response = _sendCommand(COMMAND_START, psk, strlen(psk) + 1);
+
+	if(response != RETVAL_SUCCESS) {
+		return -1;
+	}
+	else {
+		return 0;
+	}
+}
+/**
+ *    This method stops the wifi connection
+ *    @author Mike, Guan, Larisa, Isaac
+ *    @date 4/20/2017
+ */
+int WiFi_stop() {
+	return _sendCommand(COMMAND_STOP, NULL, 0);
+}
+/**
+ *    This method sends a string
+ *    @param command the wifi command
+ *    @param param the given string
+ *    @param len the length of the given string
+ *    @author Mike, Guan, Larisa, Isaac
+ *    @date 4/20/2017
+ */
+uint8_t _sendCommand(uint8_t command, uint8_t* param, uint8_t len) {
+	//Raise command flag
+	GPIO_PORTB_DATA_R |= COMMAND_PIN;
+
+	//Send WiFi command
+
+	uart_sendChar(command);
+
+	//Send parameter (if applicable)
+	if(len > 0) {
+		uart_sendBuffer(param, len);
+	}
+
+	//Wait for response from WiFi microcontroller
+	int response = uart_receive();
+
+	//Lower the command flag
+	GPIO_PORTB_DATA_R &= ~COMMAND_PIN;
+
+	return response;
+}
+/**
+ *    This method initializes the uart
+ *    @author Mike, Guan, Larisa, Isaac
+ *    @date 4/20/2017
+ */
+void uart_init(){
+	SYSCTL_RCGCGPIO_R |= SYSCTL_RCGCGPIO_R1;
+
+	SYSCTL_RCGCUART_R |= SYSCTL_RCGCUART_R1;
+
+	GPIO_PORTB_AFSEL_R = GPIO_PORTB_AFSEL_R | 0x03;
+
+	GPIO_PORTB_PCTL_R |= 0x00000011;
+
+	GPIO_PORTB_DEN_R =  GPIO_PORTB_DEN_R | 0x03;
+
+	GPIO_PORTB_DIR_R = GPIO_PORTB_DIR_R & 0x00;
+
+	GPIO_PORTB_DIR_R = GPIO_PORTB_DIR_R | 0x02;
+
+	uint16_t iBRD = 0x8;
+	uint16_t fBRD = 0x2C;
+
+	UART1_CTL_R &= ~(UART_CTL_UARTEN);
+
+	UART1_IBRD_R = iBRD;
+	UART1_FBRD_R = fBRD;
+
+	UART1_LCRH_R = UART_LCRH_WLEN_8 ;
+
+	UART1_CC_R = UART_CC_CS_SYSCLK;
+
+	UART1_CTL_R = (UART_CTL_RXE | UART_CTL_TXE | UART_CTL_UARTEN);
+
+}
+
+/**
+ *    This method sends one character over wifi to putty
+ *    @param data the char to be sent
+ *    @author Mike, Guan, Larisa, Isaac
+ *    @date 4/20/2017
+ */
+void uart_sendChar(uint8_t data)
+{
+	//wait until there is room to send data
+	while(UART1_FR_R & 0x20)
+	{
+	}
+	//send data
+	UART1_DR_R = data;
+}
+/**
+ *    This method sends a string (char array)
+ *    @param param the given string
+ *    @param len the length of the given string
+ *    @author Mike, Guan, Larisa, Isaac
+ *    @date 4/20/2017
+ */
+void uart_sendBuffer(uint8_t* param, uint8_t len){
+	int i =0;
+	for(i = 0; i < len; ++i){
+		uart_sendChar(*(param + i));
+	}
+}
+
+char uart_receive(void){
+	char data = 0;
+	while(UART1_FR_R & UART_FR_RXFE)
+	{
+	}
+
+	data = (char)(UART1_DR_R & 0xFF);
+	return data;
+
+}
+
+

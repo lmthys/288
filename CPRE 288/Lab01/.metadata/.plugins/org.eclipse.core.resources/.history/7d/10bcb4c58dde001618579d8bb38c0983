@@ -1,0 +1,43 @@
+#include "lcd.h"
+#include "timer.h";
+
+/// Simple 'Hello, world' program
+/**
+ * This program prints "Hello, world" to the LCD screen
+ * @author Chad Nelson
+ * @date 06/26/2012
+ */
+int main (void) {
+	// Initialize the the LCD.  This also clears the screen.
+	lcd_init(); 
+	int i;
+	uint32_t millis = 300;
+	char arr[35] = "Microcontrollers are lots of fun!";
+	char space[21] = "                   ";
+	int j;
+	int k = 0;
+	// Clear the LCD screen and print "Hello, world" on the LCDS
+	for(j = 20; j >= 0; j--){
+		lcd_printf("%s", space);
+		//timer_waitMillis(millis);
+		k++;
+		for(i = 0; i < k; i++){
+			space[j] = arr[i];
+		}
+
+	}
+
+
+
+	// lcd_puts("Hello, world");// Replace lprintf with lcd_puts
+                                 // step through in debug mode
+                                 // and explain to TA how it
+                                 // works
+
+	// Notes: Open util.h to see what functions are available for you to use.
+	// You will need to use these functions in future labs.
+    
+	// It is recommended that you use only lcd_init(), lcd_printf(), lcd_putc, and lcd_puts from lcd.h.
+    
+	return 0;
+}
